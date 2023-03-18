@@ -10,16 +10,17 @@
   <PropertyGroup Label="Nuget">
     <IsPackable>true</IsPackable>
     <PackageId>Mediapipe.Net.Runtime.CPU</PackageId>
-    <Version>0.9.1 </Version>
+    <Version>0.9.1-develop-alpha2</Version>
     <Authors>homuler;Vignette</Authors>
     <PackageTags>Google;Mediapipe;Tracking;Media Analysis</PackageTags>
     <Title>Mediapipe.Net.Runtime.CPU</Title>
-    <Description>Native runtime libraries for MediaPipe.NET (CPU) (MediaPipe v0.8.10)</Description>
+    <Description>Native runtime libraries for MediaPipe.NET (CPU)</Description>
     <Copyright>2022 homuler and Vignette</Copyright>
-    <RepositoryUrl>https://github.com/vignetteapp/MediaPipe.NET.Runtime</RepositoryUrl>
-    <PackageProjectUrl>https://github.com/vignetteapp/MediaPipe.NET.Runtime</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/jM9sr1vsH7nOZ8Y5/MediaPipe.NET.Runtime</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/jM9sr1vsH7nOZ8Y5/MediaPipe.NET.Runtime</PackageProjectUrl>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <IncludeBuildOutput>false</IncludeBuildOutput>
+    <IncludeSymbols>true</IncludeSymbols>
   </PropertyGroup>
 
   <PropertyGroup Label="Pre-build task">

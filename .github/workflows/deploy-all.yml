@@ -215,6 +215,12 @@ jobs:
         with:
           name: ${{ env.PROJECT_NAME }}-nuget
           path: ${{ env.PACKAGE_OUTDIR }}/*.nupkg
+          
+      - name: Upload Nuget package artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ env.PROJECT_NAME }}-nuget
+          path: ${{ env.PACKAGE_OUTDIR }}/*.snupkg
 
   deploy:
     name: Deploy
@@ -222,6 +228,9 @@ jobs:
     environment: ${{ github.event.release.prerelease && 'Pre-release' || 'Production' }}
     runs-on: ubuntu-latest
     steps:
+      - name: Set nuget config
+        run: dotnet nuget add source "${{ secrets.AZURE_FEED }}" --name "MediaPipe.NET" --username ${{ secrets.AZURE_USER }} --password ${{ secrets.AZURE_TOKEN }} --store-password-in-clear-text 
+        
       - name: Download Protobuf Nuget package artifact
         uses: actions/download-artifact@v3
         with:
@@ -233,12 +242,15 @@ jobs:
         with:
           name: ${{ env.PROJECT_NAME }}-nuget
           path: ${{ github.workspace }}
-
-      # - name: Deploy to GitHub Package Registry
-      #   run: dotnet nuget push ${{ github.workspace }}/*.nupkg --api-key ${{ secrets.GITHUB_TOKEN }} --source github
+        
+      - name: Deploy to GitHub Package Registry
+        run: dotnet nuget push ${{ github.workspace }}/*.nupkg --api-key ${{ secrets.AZURE_TOKEN }} --source "MediaPipe.NET" --skip-duplicate
       
-      - name: Deploy to NuGet
-        run: dotnet nuget push ${{ github.workspace }}/*.nupkg --api-key ${{ secrets.NUGET_TOKEN }} --source https://api.nuget.org/v3/index.json
+      #- name: Deploy to GitHub Package Registry
+      #  run: dotnet nuget push ${{ github.workspace }}/*.snupkg --api-key ${{ secrets.AZURE_TOKEN }} --source "MediaPipe.NET"
+      
+      #- name: Deploy to NuGet
+      #  run: dotnet nuget push ${{ github.workspace }}/*.nupkg --api-key ${{ secrets.NUGET_TOKEN }} --source https://api.nuget.org/v3/index.json
 
       - name: Generate Release
         uses: ncipollo/release-action@v1
